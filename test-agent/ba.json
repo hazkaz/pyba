@@ -1,0 +1,11 @@
+{
+    "id": "test-agent",
+    "name": "test-agent",
+    "author": "",
+    "license": "MIT",
+    "language": "python",
+    "gamemode": "deathmatch",
+    "repourl": "",
+    "description": "Sample Python agent",
+    "avatarurl": "https://avatars1.githubusercontent.com/u/28099873"
+}
