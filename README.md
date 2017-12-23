@@ -1,3 +1,3 @@
 # pyba
 
-Python API for ByteArena.
+Python SDK for ByteArena.
