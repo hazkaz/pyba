@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 import os
 import socket
@@ -10,6 +12,16 @@ class ByteArena():
 
         self.actions = []
         self.version = { "version": "clear_beta" }
+
+        # init perception
+        self.score = None
+        self.energy = None
+        self.velocity = None
+        self.azimuth = None
+        self.vision = None
+        self.shootenergy = None
+        self.shootcooldown = None
+        self.messages = None
 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((self.host, int(self.port)))
@@ -36,11 +48,26 @@ class ByteArena():
 
     def recv(self):
         data = self.s.recv(4096)
-        try:
-            return json.loads(data)
-        except: pass
 
-    def recv_until(self, method):
+        try:
+            data = json.loads(data)
+        except:
+            return
+
+        if data["method"] == "perception":
+            payload = data["payload"]
+            self.score = payload["score"]
+            self.energy = payload["energy"]
+            self.velocity = payload["velocity"]
+            self.azimuth = payload["azimuth"]
+            self.vision = payload["vision"]
+            self.shootenergy = payload["shootenergy"]
+            self.shootcooldown = payload["shootcooldown"]
+            self.messages = payload["messages"]
+
+        return data
+
+    def stream(self, method):
         while True:
             data = self.recv()
             if data and data["method"] == method:
